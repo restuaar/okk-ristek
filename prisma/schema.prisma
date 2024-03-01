@@ -12,3 +12,19 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Anggota {
+  id        Int           @id @default(autoincrement())
+  nama      String
+  fakultas  String
+  jurusan   String
+  angkatan  Int
+  jenis     AnggotaType?
+}
+
+enum AnggotaType {
+  PJ
+  WA_PJ
+  WA_PJ2
+  STAFF
+}
