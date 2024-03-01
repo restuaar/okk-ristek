@@ -42,3 +42,11 @@ enum DivisiType {
   PENGURUS_INTI
   BPH
 }
+
+model Mentor {
+  id            Int          @id @default(autoincrement())
+  nama          String
+  fakultas      String
+  jurusan       String
+  angkatan      Int
+}

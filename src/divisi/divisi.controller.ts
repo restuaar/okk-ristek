@@ -8,6 +8,7 @@ import {
   Delete,
   ParseIntPipe,
   Query,
+  NotFoundException,
 } from '@nestjs/common';
 import { DivisiService } from './divisi.service';
 import { CreateDivisiDto } from './dto/create-divisi.dto';
@@ -42,12 +43,16 @@ export class DivisiController {
   @Get(':id')
   @ApiOkResponse({ type: DivisiEntities })
   @ApiQuery({ name: 'anggota', required: false, type: Boolean })
-  findOne(
+  async findOne(
     @Param('id', ParseIntPipe) id: number,
     @Query() query: { anggota: string },
   ) {
     const isAnggota = query.anggota === 'true';
-    return this.divisiService.findOne(+id, isAnggota);
+    const divisi = await this.divisiService.findOne(id, isAnggota);
+    if (!divisi) {
+      throw new NotFoundException(`Divisi with id ${id} does not exist.`);
+    }
+    return divisi;
   }
 
   @Patch(':id')
