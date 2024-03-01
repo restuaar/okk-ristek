@@ -1,4 +1,9 @@
-import { Controller, Get } from '@nestjs/common';
+import {
+  All,
+  Controller,
+  Get,
+  MethodNotAllowedException,
+} from '@nestjs/common';
 import { AppService } from './app.service';
 
 @Controller()
@@ -6,7 +11,14 @@ export class AppController {
   constructor(private readonly appService: AppService) {}
 
   @Get()
-  getHello(): string {
-    return this.appService.getHello();
+  getMain() {
+    return this.appService.getMain();
+  }
+
+  @All()
+  postMain(): MethodNotAllowedException {
+    return new MethodNotAllowedException(
+      'Method not allowed. Please use GET method instead.',
+    );
   }
 }

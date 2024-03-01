@@ -2,7 +2,12 @@ import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class AppService {
-  getHello(): string {
-    return 'Hello World!';
+  getMain() {
+    return {
+      author_url: 'https://github.com/restuaar',
+      version: '1.0.0',
+      github_url: 'https://github.com/restuaar/okk-ui-ristek',
+      message: 'Welcome to OKK UI Ristek 2024!',
+    };
   }
 }
