@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   ParseIntPipe,
+  NotFoundException,
 } from '@nestjs/common';
 import { AnggotaService } from './anggota.service';
 import { CreateAnggotaDto } from './dto/create-anggota.dto';
@@ -34,12 +35,19 @@ export class AnggotaController {
   @Get(':id')
   @ApiOkResponse({ type: AnggotaEntities })
   findOne(@Param('id') id: ParseIntPipe) {
-    return this.anggotaService.findOne(+id);
+    const anggota = this.anggotaService.findOne(+id);
+    if (!anggota) {
+      throw new NotFoundException(`Anggota with id ${id} does not exist.`);
+    }
+    return anggota;
   }
 
   @Patch(':id')
   @ApiOkResponse({ type: AnggotaEntities })
-  update(@Param('id') id: ParseIntPipe, @Body() updateAnggotaDto: UpdateAnggotaDto) {
+  update(
+    @Param('id') id: ParseIntPipe,
+    @Body() updateAnggotaDto: UpdateAnggotaDto,
+  ) {
     return this.anggotaService.update(+id, updateAnggotaDto);
   }
 
