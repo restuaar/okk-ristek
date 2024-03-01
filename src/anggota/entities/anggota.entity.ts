@@ -1,5 +1,5 @@
-import { ApiProperty } from "@nestjs/swagger";
-import { AnggotaType } from "@prisma/client";
+import { ApiProperty } from '@nestjs/swagger';
+import { AnggotaType } from '@prisma/client';
 
 export class AnggotaEntities {
   @ApiProperty()
@@ -19,4 +19,7 @@ export class AnggotaEntities {
 
   @ApiProperty({ required: false })
   jenis?: AnggotaType;
+
+  @ApiProperty({ required: false, nullable: true })
+  divisiId: number | null;
 }

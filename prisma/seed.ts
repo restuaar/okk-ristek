@@ -1,6 +1,25 @@
 import { AnggotaType, PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 async function main() {
+  const division = [
+    {
+      nama: 'Pengembangan',
+      jenis: 'PENGURUS_INTI',
+    },
+    {
+      nama: 'Keorganisasian',
+      jenis: 'BPH',
+    },
+    {
+      nama: 'Kaderisasi',
+      jenis: 'PENGURUS_INTI',
+    },
+    {
+      nama: 'Sosial',
+      jenis: 'BPH',
+    },
+  ];
+
   const anggotas = [
     {
       nama: 'Udin',
@@ -46,14 +65,32 @@ async function main() {
     },
   ];
 
-  let id = 1;
-  for (const anggota of anggotas) {
-    await prisma.anggota.upsert({
-      where: { id: id },
+  let idDivisi = 1;
+  for (const divisi of division) {
+    await prisma.divisi.upsert({
+      where: { id: idDivisi },
       update: {},
-      create: anggota,
+      create: divisi as any,
     });
-    id++;
+    idDivisi++;
+  }
+
+  const getRandomInt = (min: number, max: number) => {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  };
+
+  let idAnggota = 1;
+  for (const anggota of anggotas) {
+    const randomDivisionId = getRandomInt(1, 4);
+    await prisma.anggota.upsert({
+      where: { id: idAnggota },
+      update: {},
+      create: {
+        ...anggota,
+        divisiId: randomDivisionId,
+      },
+    });
+    idAnggota++;
   }
 
   console.log('Seeded the database...');

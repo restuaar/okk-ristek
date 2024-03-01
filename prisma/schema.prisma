@@ -20,6 +20,8 @@ model Anggota {
   jurusan   String
   angkatan  Int
   jenis     AnggotaType?
+  divisi    Divisi?       @relation(fields: [divisiId], references: [id])
+  divisiId  Int?
 }
 
 enum AnggotaType {
@@ -27,4 +29,16 @@ enum AnggotaType {
   WA_PJ
   WA_PJ2
   STAFF
+}
+
+model Divisi {
+  id       Int              @id @default(autoincrement())
+  nama     String           @unique
+  jenis    DivisiType
+  anggota  Anggota[]
+}
+
+enum DivisiType {
+  PENGURUS_INTI
+  BPH
 }
