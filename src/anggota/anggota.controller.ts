@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { AnggotaService } from './anggota.service';
 import { CreateAnggotaDto } from './dto/create-anggota.dto';
@@ -32,19 +33,19 @@ export class AnggotaController {
 
   @Get(':id')
   @ApiOkResponse({ type: AnggotaEntities })
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id') id: ParseIntPipe) {
     return this.anggotaService.findOne(+id);
   }
 
   @Patch(':id')
   @ApiOkResponse({ type: AnggotaEntities })
-  update(@Param('id') id: string, @Body() updateAnggotaDto: UpdateAnggotaDto) {
+  update(@Param('id') id: ParseIntPipe, @Body() updateAnggotaDto: UpdateAnggotaDto) {
     return this.anggotaService.update(+id, updateAnggotaDto);
   }
 
   @Delete(':id')
   @ApiOkResponse({ type: AnggotaEntities })
-  remove(@Param('id') id: string) {
+  remove(@Param('id') id: ParseIntPipe) {
     return this.anggotaService.remove(+id);
   }
 }
