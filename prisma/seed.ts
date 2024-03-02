@@ -233,6 +233,61 @@ async function main() {
     idMentee++;
   }
 
+  const mentoring = [
+    {
+      waktu: new Date('2021-10-10'),
+      tempat: 'Aula Utama',
+      materi: 'Pengenalan OKK',
+      kelompokId: 1,
+    },
+    {
+      waktu: new Date('2021-10-10'),
+      tempat: 'Aula Utama',
+      materi: 'Pengenalan OKK',
+      kelompokId: 2,
+    },
+    {
+      waktu: new Date('2021-10-11'),
+      tempat: 'Ruang Seminar',
+      materi: 'Pengembangan Diri',
+      kelompokId: 3,
+    },
+    {
+      waktu: new Date('2021-10-12'),
+      tempat: 'Lab Komputer',
+      materi: 'Pemrograman Dasar',
+      kelompokId: 4,
+    },
+    {
+      waktu: new Date('2021-10-13'),
+      tempat: 'Ruang Diskusi',
+      materi: 'Kepemimpinan',
+      kelompokId: 5,
+    },
+    {
+      waktu: new Date('2021-10-14'),
+      tempat: 'Studio Rekaman',
+      materi: 'Seni Musik',
+      kelompokId: 6,
+    },
+    {
+      waktu: new Date('2021-10-15'),
+      tempat: 'Lapangan Olahraga',
+      materi: 'Olahraga',
+      kelompokId: 1,
+    },
+  ];
+
+  let idMentoring = 1;
+  for (const jadwal of mentoring) {
+    await prisma.jadwalMentoring.upsert({
+      where: { id: idMentoring },
+      update: {},
+      create: jadwal,
+    });
+    idMentoring++;
+  }
+
   console.log('Seeded the database...');
 }
 

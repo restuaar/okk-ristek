@@ -16,7 +16,10 @@ export class MenteeService {
   }
 
   findOne(id: number) {
-    return this.prisma.mentee.findUnique({ where: { id: id } });
+    return this.prisma.mentee.findUnique({
+      where: { id: id },
+      include: { kehadiran: true },
+    });
   }
 
   update(id: number, updateMenteeDto: UpdateMenteeDto) {

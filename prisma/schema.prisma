@@ -62,6 +62,7 @@ model Mentee {
   jalurMasuk  JalurMasukType
   kelompok    KelompokOKK         @relation(fields: [kelompokId], references: [id])
   kelompokId  Int
+  kehadiran   JadwalMentoring[]   @relation("KehadiranMentee")
 }
 
 enum JalurMasukType {
@@ -74,7 +75,18 @@ enum JalurMasukType {
 
 model KelompokOKK {
   id        Int       @id @default(autoincrement())
-  nomor     Int
+  nomor     Int       @unique
   mentor    Mentor?
-  mentees   Mentee[]  
+  mentees   Mentee[]
+  jadwal    JadwalMentoring[]
+}
+
+model JadwalMentoring {
+  id          Int          @id @default(autoincrement())
+  waktu       DateTime
+  tempat      String
+  materi      String
+  kelompok    KelompokOKK  @relation(fields: [kelompokId], references: [id])
+  kelompokId  Int
+  kehadiran   Mentee[]     @relation("KehadiranMentee")
 }
