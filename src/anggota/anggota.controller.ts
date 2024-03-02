@@ -12,7 +12,12 @@ import {
 import { AnggotaService } from './anggota.service';
 import { CreateAnggotaDto } from './dto/create-anggota.dto';
 import { UpdateAnggotaDto } from './dto/update-anggota.dto';
-import { ApiCreatedResponse, ApiOkResponse, ApiParam, ApiTags } from '@nestjs/swagger';
+import {
+  ApiCreatedResponse,
+  ApiOkResponse,
+  ApiParam,
+  ApiTags,
+} from '@nestjs/swagger';
 import { AnggotaEntities } from './entities/anggota.entity';
 
 @ApiTags('anggota')

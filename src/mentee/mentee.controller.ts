@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   NotFoundException,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { MenteeService } from './mentee.service';
 import { CreateMenteeDto } from './dto/create-mentee.dto';
@@ -33,8 +34,8 @@ export class MenteeController {
 
   @Get(':id')
   @ApiOkResponse({ type: MenteeEntities })
-  async findOne(@Param('id') id: string) {
-    const mentee = await this.menteeService.findOne(+id);
+  async findOne(@Param('id', ParseIntPipe) id: number) {
+    const mentee = await this.menteeService.findOne(id);
     if (!mentee) {
       throw new NotFoundException(`Mentee with id ${id} does not exist.`);
     }
@@ -43,13 +44,16 @@ export class MenteeController {
 
   @Patch(':id')
   @ApiOkResponse({ type: MenteeEntities })
-  update(@Param('id') id: string, @Body() updateMenteeDto: UpdateMenteeDto) {
-    return this.menteeService.update(+id, updateMenteeDto);
+  update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateMenteeDto: UpdateMenteeDto,
+  ) {
+    return this.menteeService.update(id, updateMenteeDto);
   }
 
   @Delete(':id')
   @ApiOkResponse({ type: MenteeEntities })
-  remove(@Param('id') id: string) {
+  remove(@Param('id', ParseIntPipe) id: number) {
     return this.menteeService.remove(+id);
   }
 }

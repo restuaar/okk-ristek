@@ -18,5 +18,8 @@ export class MenteeEntities implements Mentee {
   angkatan: number;
 
   @ApiProperty()
+  kelompokId: number;
+
+  @ApiProperty()
   jalurMasuk: JalurMasukType;
 }

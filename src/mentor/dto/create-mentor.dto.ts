@@ -21,6 +21,12 @@ export class CreateMentorDto {
   jurusan: string;
 
   @IsNumber()
+  @IsNotEmpty()
   @ApiProperty()
   angkatan: number;
+
+  @IsNumber()
+  @IsNotEmpty()
+  @ApiProperty()
+  kelompokId: number;
 }

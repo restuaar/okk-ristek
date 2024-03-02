@@ -1,22 +1,27 @@
-import { AnggotaType, JalurMasukType, PrismaClient } from '@prisma/client';
+import {
+  AnggotaType,
+  DivisiType,
+  JalurMasukType,
+  PrismaClient,
+} from '@prisma/client';
 const prisma = new PrismaClient();
 async function main() {
   const division = [
     {
       nama: 'Pengembangan',
-      jenis: 'PENGURUS_INTI',
+      jenis: DivisiType.PENGURUS_INTI,
     },
     {
       nama: 'Keorganisasian',
-      jenis: 'BPH',
+      jenis: DivisiType.BPH,
     },
     {
       nama: 'Kaderisasi',
-      jenis: 'PENGURUS_INTI',
+      jenis: DivisiType.PENGURUS_INTI,
     },
     {
       nama: 'Sosial',
-      jenis: 'BPH',
+      jenis: DivisiType.BPH,
     },
   ];
 
@@ -25,7 +30,7 @@ async function main() {
     await prisma.divisi.upsert({
       where: { id: idDivisi },
       update: {},
-      create: divisi as any,
+      create: divisi,
     });
     idDivisi++;
   }
@@ -93,42 +98,67 @@ async function main() {
     idAnggota++;
   }
 
+  const kelompokOKK = [
+    { nomor: 1 },
+    { nomor: 2 },
+    { nomor: 3 },
+    { nomor: 4 },
+    { nomor: 5 },
+    { nomor: 6 },
+  ];
+
+  let idKelompokOKK = 1;
+  for (const kel of kelompokOKK) {
+    await prisma.kelompokOKK.upsert({
+      where: { id: idKelompokOKK },
+      update: {},
+      create: kel,
+    });
+    idKelompokOKK++;
+  }
+
   const mentors = [
     {
       nama: 'Udin',
       fakultas: 'Fakultas Teknik',
       jurusan: 'Teknik Informatika',
       angkatan: 2019,
+      kelompokId: 1,
     },
     {
       nama: 'Joko',
       fakultas: 'Fakultas Ekonomi',
       jurusan: 'Manajemen',
       angkatan: 2020,
+      kelompokId: 2,
     },
     {
       nama: 'Siti',
       fakultas: 'Fakultas Psikologi',
       jurusan: 'Psikologi',
       angkatan: 2018,
+      kelompokId: 3,
     },
     {
       nama: 'Rina',
       fakultas: 'Fakultas Hukum',
       jurusan: 'Ilmu Hukum',
       angkatan: 2021,
+      kelompokId: 4,
     },
     {
       nama: 'Budi',
       fakultas: 'Fakultas Ilmu Sosial dan Ilmu Politik',
       jurusan: 'Ilmu Administrasi Negara',
       angkatan: 2017,
+      kelompokId: 5,
     },
     {
       nama: 'Wati',
       fakultas: 'Fakultas Farmasi',
       jurusan: 'Farmasi',
       angkatan: 2019,
+      kelompokId: 6,
     },
   ];
 
@@ -149,6 +179,7 @@ async function main() {
       jurusan: 'Kedokteran Umum',
       angkatan: 2022,
       jalurMasuk: JalurMasukType.SNMPTN,
+      kelompokId: 1,
     },
     {
       nama: 'Lina',
@@ -156,6 +187,7 @@ async function main() {
       jurusan: 'Ilmu Komunikasi',
       angkatan: 2020,
       jalurMasuk: JalurMasukType.PRESTASI,
+      kelompokId: 2,
     },
     {
       nama: 'Rudi',
@@ -163,6 +195,7 @@ async function main() {
       jurusan: 'Agroteknologi',
       angkatan: 2018,
       jalurMasuk: JalurMasukType.SBMPTN,
+      kelompokId: 3,
     },
     {
       nama: 'Dina',
@@ -170,6 +203,7 @@ async function main() {
       jurusan: 'Teknik Sipil',
       angkatan: 2021,
       jalurMasuk: JalurMasukType.SBMPTN,
+      kelompokId: 1,
     },
     {
       nama: 'Rudi',
@@ -177,6 +211,7 @@ async function main() {
       jurusan: 'Akuntansi',
       angkatan: 2019,
       jalurMasuk: JalurMasukType.TALENT_SCOUTING,
+      kelompokId: 2,
     },
     {
       nama: 'Siti',
@@ -184,7 +219,8 @@ async function main() {
       jurusan: 'Hubungan Internasional',
       angkatan: 2020,
       jalurMasuk: JalurMasukType.SIMAK_UI,
-    }
+      kelompokId: 3,
+    },
   ];
 
   let idMentee = 1;

@@ -1,6 +1,12 @@
-import { ApiProperty } from "@nestjs/swagger";
-import { JalurMasukType } from "@prisma/client";
-import { IsEnum, IsNotEmpty, IsNumber, IsString, MinLength } from "class-validator";
+import { ApiProperty } from '@nestjs/swagger';
+import { JalurMasukType } from '@prisma/client';
+import {
+  IsEnum,
+  IsNotEmpty,
+  IsNumber,
+  IsString,
+  MinLength,
+} from 'class-validator';
 
 export class CreateMenteeDto {
   @IsString()
@@ -25,6 +31,11 @@ export class CreateMenteeDto {
   @IsNotEmpty()
   @ApiProperty()
   angkatan: number;
+
+  @IsNumber()
+  @IsNotEmpty()
+  @ApiProperty()
+  kelompokId: number;
 
   @IsEnum(JalurMasukType)
   @IsNotEmpty()

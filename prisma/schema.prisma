@@ -49,6 +49,8 @@ model Mentor {
   fakultas      String
   jurusan       String
   angkatan      Int
+  kelompok      KelompokOKK  @relation(fields: [kelompokId], references: [id])
+  kelompokId    Int          @unique
 }
 
 model Mentee {
@@ -58,6 +60,8 @@ model Mentee {
   jurusan     String
   angkatan    Int
   jalurMasuk  JalurMasukType
+  kelompok    KelompokOKK         @relation(fields: [kelompokId], references: [id])
+  kelompokId  Int
 }
 
 enum JalurMasukType {
@@ -66,4 +70,11 @@ enum JalurMasukType {
   SBMPTN
   PRESTASI
   TALENT_SCOUTING
+}
+
+model KelompokOKK {
+  id        Int       @id @default(autoincrement())
+  nomor     Int
+  mentor    Mentor?
+  mentees   Mentee[]  
 }
