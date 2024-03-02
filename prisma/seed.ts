@@ -1,4 +1,4 @@
-import { AnggotaType, PrismaClient } from '@prisma/client';
+import { AnggotaType, JalurMasukType, PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 async function main() {
   const division = [
@@ -140,6 +140,61 @@ async function main() {
       create: mentor,
     });
     idMentor++;
+  }
+
+  const mentees = [
+    {
+      nama: 'Andi',
+      fakultas: 'Fakultas Kedokteran',
+      jurusan: 'Kedokteran Umum',
+      angkatan: 2022,
+      jalurMasuk: JalurMasukType.SNMPTN,
+    },
+    {
+      nama: 'Lina',
+      fakultas: 'Fakultas Ilmu Komunikasi',
+      jurusan: 'Ilmu Komunikasi',
+      angkatan: 2020,
+      jalurMasuk: JalurMasukType.PRESTASI,
+    },
+    {
+      nama: 'Rudi',
+      fakultas: 'Fakultas Pertanian',
+      jurusan: 'Agroteknologi',
+      angkatan: 2018,
+      jalurMasuk: JalurMasukType.SBMPTN,
+    },
+    {
+      nama: 'Dina',
+      fakultas: 'Fakultas Teknik',
+      jurusan: 'Teknik Sipil',
+      angkatan: 2021,
+      jalurMasuk: JalurMasukType.SBMPTN,
+    },
+    {
+      nama: 'Rudi',
+      fakultas: 'Fakultas Ekonomi',
+      jurusan: 'Akuntansi',
+      angkatan: 2019,
+      jalurMasuk: JalurMasukType.TALENT_SCOUTING,
+    },
+    {
+      nama: 'Siti',
+      fakultas: 'Fakultas Ilmu Sosial dan Ilmu Politik',
+      jurusan: 'Hubungan Internasional',
+      angkatan: 2020,
+      jalurMasuk: JalurMasukType.SIMAK_UI,
+    }
+  ];
+
+  let idMentee = 1;
+  for (const mentee of mentees) {
+    await prisma.mentee.upsert({
+      where: { id: idMentee },
+      update: {},
+      create: mentee,
+    });
+    idMentee++;
   }
 
   console.log('Seeded the database...');

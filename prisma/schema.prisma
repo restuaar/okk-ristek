@@ -50,3 +50,20 @@ model Mentor {
   jurusan       String
   angkatan      Int
 }
+
+model Mentee {
+  id          Int                 @id @default(autoincrement())
+  nama        String
+  fakultas    String
+  jurusan     String
+  angkatan    Int
+  jalurMasuk  JalurMasukType
+}
+
+enum JalurMasukType {
+  SIMAK_UI
+  SNMPTN
+  SBMPTN
+  PRESTASI
+  TALENT_SCOUTING
+}
