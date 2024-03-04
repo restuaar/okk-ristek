@@ -16,12 +16,13 @@ import { UpdateAnggotaDto } from './dto/update-anggota.dto';
 import {
   ApiCreatedResponse,
   ApiOkResponse,
+  ApiOperation,
   ApiParam,
   ApiQuery,
   ApiTags,
 } from '@nestjs/swagger';
 import { AnggotaEntities } from './entities/anggota.entity';
-import { QueryDto } from './dto/query-anggota.dto';
+import { QueryAnggotaDto } from './dto/query-anggota.dto';
 
 @ApiTags('anggota')
 @Controller('anggota')
@@ -29,6 +30,7 @@ export class AnggotaController {
   constructor(private readonly anggotaService: AnggotaService) {}
 
   @Post()
+  @ApiOperation({ summary: 'Create Anggota' })
   @ApiCreatedResponse({ type: AnggotaEntities })
   async create(@Body() createAnggotaDto: CreateAnggotaDto) {
     return new AnggotaEntities(
@@ -37,10 +39,11 @@ export class AnggotaController {
   }
 
   @Get()
+  @ApiOperation({ summary: 'Get All Anggota' })
   @ApiQuery({ name: 'type', required: false, type: 'AnggotaType' })
   @ApiQuery({ name: 'divisiId', required: false, type: Number })
   @ApiOkResponse({ type: AnggotaEntities, isArray: true })
-  async findAll(@Query() query: QueryDto) {
+  async findAll(@Query() query: QueryAnggotaDto) {
     const anggotaAll = await this.anggotaService.findAll(
       query.type,
       query.divisiId,
@@ -49,12 +52,13 @@ export class AnggotaController {
   }
 
   @Get(':id')
+  @ApiOperation({ summary: 'Get Anggota By Id' })
   @ApiOkResponse({ type: AnggotaEntities })
   @ApiParam({ name: 'id', type: Number })
   async findOne(@Param('id', ParseIntPipe) id: number) {
     return this.findOneAnggota(id);
   }
-  
+
   async findOneAnggota(id: number) {
     const anggota = await this.anggotaService.findOne(id);
     if (!anggota) {
@@ -64,6 +68,7 @@ export class AnggotaController {
   }
 
   @Patch(':id')
+  @ApiOperation({ summary: 'Update Anggota' })
   @ApiOkResponse({ type: AnggotaEntities })
   async update(
     @Param('id', ParseIntPipe) id: number,
@@ -74,6 +79,7 @@ export class AnggotaController {
   }
 
   @Delete(':id')
+  @ApiOperation({ summary: 'Delete Anggota' })
   @ApiOkResponse({ type: AnggotaEntities })
   async remove(@Param('id', ParseIntPipe) id: number) {
     await this.findOneAnggota(id);

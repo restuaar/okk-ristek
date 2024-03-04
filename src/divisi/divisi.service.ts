@@ -11,14 +11,21 @@ export class DivisiService {
     return this.prisma.divisi.create({ data: createDivisiDto });
   }
 
-  findAll(isAnggota: boolean) {
-    return this.prisma.divisi.findMany({ include: { anggota: isAnggota } });
+  findAll(withAnggota: boolean) {
+    return this.prisma.divisi.findMany({ include: { anggota: withAnggota } });
   }
 
-  findOne(id: number, isAnggota: boolean) {
+  findOne(id: number) {
     return this.prisma.divisi.findUnique({
       where: { id },
-      include: { anggota: isAnggota },
+      include: { anggota: true },
+    });
+  }
+
+  findByName(name: string) {
+    return this.prisma.divisi.findMany({
+      where: { nama: { contains: name, mode: 'insensitive' } },
+      include: { anggota: true },
     });
   }
 

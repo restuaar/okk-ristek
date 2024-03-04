@@ -8,7 +8,7 @@ import {
 import { toNumber} from "src/common/helper/cast.helper";
 
 
-export class QueryDto {
+export class QueryAnggotaDto {
   @Transform(({ value }) => toNumber(value, { default: 1, min: 1 }))
   @IsNumber()
   @IsOptional()
