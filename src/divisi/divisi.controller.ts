@@ -9,6 +9,7 @@ import {
   ParseIntPipe,
   Query,
   NotFoundException,
+  ParseBoolPipe,
 } from '@nestjs/common';
 import { DivisiService } from './divisi.service';
 import { CreateDivisiDto } from './dto/create-divisi.dto';
@@ -33,21 +34,19 @@ export class DivisiController {
   }
 
   @Get()
-  @ApiQuery({ name: 'anggota', required: false, type: Boolean })
+  @ApiQuery({ name: 'isAnggota', required: false, type: Boolean })
   @ApiOkResponse({ type: DivisiEntities, isArray: true })
-  findAll(@Query() query: { anggota: string }) {
-    const isAnggota = query.anggota === 'true';
+  findAll(@Query('isAnggota', ParseBoolPipe) isAnggota: boolean) {
     return this.divisiService.findAll(isAnggota);
   }
 
   @Get(':id')
+  @ApiQuery({ name: 'isAnggota', required: false, type: Boolean })
   @ApiOkResponse({ type: DivisiEntities })
-  @ApiQuery({ name: 'anggota', required: false, type: Boolean })
   async findOne(
     @Param('id', ParseIntPipe) id: number,
-    @Query() query: { anggota: string },
+    @Query('isAnggota', ParseBoolPipe) isAnggota: boolean,
   ) {
-    const isAnggota = query.anggota === 'true';
     const divisi = await this.divisiService.findOne(id, isAnggota);
     if (!divisi) {
       throw new NotFoundException(`Divisi with id ${id} does not exist.`);

@@ -1,7 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { AnggotaType } from '@prisma/client';
+import { AnggotaType, Divisi } from '@prisma/client';
+import { Exclude } from 'class-transformer';
 
 export class AnggotaEntities {
+  constructor(partial: Partial<AnggotaEntities>) {
+    Object.assign(this, partial);
+  }
+
   @ApiProperty()
   id: number;
 
@@ -17,9 +22,12 @@ export class AnggotaEntities {
   @ApiProperty()
   angkatan: number;
 
-  @ApiProperty({ required: false })
-  jenis?: AnggotaType;
+  @Exclude()
+  divisiId: number;
 
   @ApiProperty({ required: false, nullable: true })
-  divisiId: number | null;
+  jenis?: AnggotaType | null;
+
+  @ApiProperty({ required: false})
+  divisi: Divisi;
 }

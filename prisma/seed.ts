@@ -42,6 +42,7 @@ async function main() {
       jurusan: 'Teknik Informatika',
       angkatan: 2019,
       jenis: AnggotaType.STAFF,
+      divisiId: 1,
     },
     {
       nama: 'Joko',
@@ -49,6 +50,7 @@ async function main() {
       jurusan: 'Manajemen',
       angkatan: 2020,
       jenis: AnggotaType.STAFF,
+      divisiId: 2,
     },
     {
       nama: 'Siti',
@@ -56,6 +58,7 @@ async function main() {
       jurusan: 'Psikologi',
       angkatan: 2018,
       jenis: AnggotaType.STAFF,
+      divisiId: 3,
     },
     {
       nama: 'Rina',
@@ -63,6 +66,7 @@ async function main() {
       jurusan: 'Ilmu Hukum',
       angkatan: 2021,
       jenis: AnggotaType.STAFF,
+      divisiId: 4,
     },
     {
       nama: 'Budi',
@@ -70,6 +74,7 @@ async function main() {
       jurusan: 'Ilmu Administrasi Negara',
       angkatan: 2017,
       jenis: AnggotaType.STAFF,
+      divisiId: 1,
     },
     {
       nama: 'Wati',
@@ -77,23 +82,16 @@ async function main() {
       jurusan: 'Farmasi',
       angkatan: 2019,
       jenis: AnggotaType.STAFF,
+      divisiId: 2,
     },
   ];
 
-  const getRandomInt = (min: number, max: number) => {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-  };
-
   let idAnggota = 1;
   for (const anggota of anggotas) {
-    const randomDivisionId = getRandomInt(1, 4);
     await prisma.anggota.upsert({
       where: { id: idAnggota },
       update: {},
-      create: {
-        ...anggota,
-        divisiId: randomDivisionId,
-      },
+      create: anggota,
     });
     idAnggota++;
   }

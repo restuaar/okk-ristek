@@ -37,4 +37,9 @@ export class CreateAnggotaDto {
   @IsEnum(AnggotaType)
   @ApiProperty({ required: false })
   jenis?: AnggotaType;
+
+  @IsNumber()
+  @IsNotEmpty()
+  @ApiProperty()
+  divisiId: number;
 }

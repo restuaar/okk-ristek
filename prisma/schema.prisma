@@ -20,8 +20,8 @@ model Anggota {
   jurusan   String
   angkatan  Int
   jenis     AnggotaType?
-  divisi    Divisi?       @relation(fields: [divisiId], references: [id])
-  divisiId  Int?
+  divisi    Divisi        @relation(fields: [divisiId], references: [id])
+  divisiId  Int
 }
 
 enum AnggotaType {
