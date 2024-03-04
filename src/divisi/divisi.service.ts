@@ -8,11 +8,14 @@ export class DivisiService {
   constructor(private readonly prisma: PrismaService) {}
 
   create(createDivisiDto: CreateDivisiDto) {
-    return this.prisma.divisi.create({ data: createDivisiDto });
+    return this.prisma.divisi.create({
+      data: createDivisiDto,
+      include: { anggota: true, pj: true, waPj: true, waPj2: true },
+    });
   }
 
-  findAll(withAnggota: boolean) {
-    return this.prisma.divisi.findMany({ include: { anggota: withAnggota } });
+  findAll(withAnggota: boolean, withPemimpin: boolean) {
+    return this.prisma.divisi.findMany({ include: { anggota: withAnggota, pj: withPemimpin, waPj: withPemimpin, waPj2: withPemimpin} });
   }
 
   findOne(id: number) {
@@ -23,7 +26,7 @@ export class DivisiService {
   }
 
   findByName(name: string) {
-    return this.prisma.divisi.findMany({
+    return this.prisma.divisi.findFirst({
       where: { nama: { contains: name, mode: 'insensitive' } },
       include: { anggota: true },
     });

@@ -9,7 +9,10 @@ export class AnggotaService {
   constructor(private readonly prisma: PrismaService) {}
 
   create(createAnggotaDto: CreateAnggotaDto) {
-    return this.prisma.anggota.create({ data: createAnggotaDto });
+    return this.prisma.anggota.create({
+      data: createAnggotaDto,
+      include: { divisi: true },
+    });
   }
 
   findAll(type: string, divisiId: number) {

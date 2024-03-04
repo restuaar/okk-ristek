@@ -7,4 +7,9 @@ export class QueryDivisiDto {
   @IsBoolean()
   @IsOptional()
   public withAnggota: boolean = true;
+
+  @Transform(({ value }) => toBoolean(value))
+  @IsBoolean()
+  @IsOptional()
+  public withPemimpin: boolean = true;
 }

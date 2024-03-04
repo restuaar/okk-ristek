@@ -14,14 +14,17 @@ datasource db {
 }
 
 model Anggota {
-  id        Int           @id @default(autoincrement())
-  nama      String
-  fakultas  String
-  jurusan   String
-  angkatan  Int
-  jenis     AnggotaType?
-  divisi    Divisi        @relation(fields: [divisiId], references: [id])
-  divisiId  Int
+  id            Int           @id @default(autoincrement())
+  nama          String
+  fakultas      String
+  jurusan       String
+  angkatan      Int
+  jenis         AnggotaType?
+  divisi        Divisi        @relation(fields: [divisiId], references: [id])
+  divisiId      Int
+  pjDivisi      Divisi?       @relation("PjDivisi")
+  waPjDivisi    Divisi?       @relation("WaPjDivisi")
+  waPj2Divisi   Divisi?       @relation("WaPj2Divisi")
 }
 
 enum AnggotaType {
@@ -36,6 +39,12 @@ model Divisi {
   nama     String           @unique
   jenis    DivisiType
   anggota  Anggota[]
+  pj       Anggota?         @relation("PjDivisi", fields: [pjId], references: [id])
+  pjId     Int?             @unique
+  waPj     Anggota?         @relation("WaPjDivisi", fields: [waPjId], references: [id])
+  waPjId   Int?             @unique
+  waPj2    Anggota?         @relation("WaPj2Divisi", fields: [waPj2Id], references: [id])
+  waPj2Id  Int?             @unique
 }
 
 enum DivisiType {

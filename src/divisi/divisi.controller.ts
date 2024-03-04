@@ -31,16 +31,23 @@ export class DivisiController {
   @Post()
   @ApiOperation({ summary: 'Create Divisi' })
   @ApiCreatedResponse({ type: DivisiEntities })
-  create(@Body() createDivisiDto: CreateDivisiDto) {
-    return this.divisiService.create(createDivisiDto);
+  async create(@Body() createDivisiDto: CreateDivisiDto) {
+    return new DivisiEntities(await this.divisiService.create(createDivisiDto));
   }
 
   @Get()
   @ApiOperation({ summary: 'Get All Divisi' })
   @ApiQuery({ name: 'withAnggota', required: false, type: Boolean })
+  @ApiQuery({ name: 'withPemimpin', required: false, type: Boolean })
   @ApiOkResponse({ type: DivisiEntities, isArray: true })
-  findAll(@Query() query: QueryDivisiDto = { withAnggota: true }) {
-    return this.divisiService.findAll(query.withAnggota);
+  async findAll(
+    @Query() query: QueryDivisiDto = { withAnggota: true, withPemimpin: true },
+  ) {
+    const allDivisi = await this.divisiService.findAll(
+      query.withAnggota,
+      query.withPemimpin,
+    );
+    return allDivisi.map((divisi) => new DivisiEntities(divisi));
   }
 
   @Get(':id')
@@ -51,7 +58,7 @@ export class DivisiController {
     if (!divisi) {
       throw new NotFoundException(`Divisi with id ${id} does not exist.`);
     }
-    return divisi;
+    return new DivisiEntities(divisi);
   }
 
   @Get('byname/:name')
@@ -60,26 +67,28 @@ export class DivisiController {
   async findByName(@Param('name') name: string) {
     name = decodeURI(name);
     const divisi = await this.divisiService.findByName(name);
-    if (divisi.length === 0) {
+    if (divisi) {
       throw new NotFoundException(`Divisi with name ${name} does not exist.`);
     }
-    return divisi[0];
+    return new DivisiEntities(divisi);
   }
 
   @Patch(':id')
   @ApiOperation({ summary: 'Update Divisi' })
   @ApiOkResponse({ type: DivisiEntities })
-  update(
+  async update(
     @Param('id', ParseIntPipe) id: number,
     @Body() updateDivisiDto: UpdateDivisiDto,
   ) {
-    return this.divisiService.update(id, updateDivisiDto);
+    return new DivisiEntities(
+      await this.divisiService.update(id, updateDivisiDto),
+    );
   }
 
   @Delete(':id')
   @ApiOperation({ summary: 'Delete Divisi' })
   @ApiOkResponse({ type: DivisiEntities })
-  remove(@Param('id', ParseIntPipe) id: number) {
-    return this.divisiService.remove(id);
+  async remove(@Param('id', ParseIntPipe) id: number) {
+    return new DivisiEntities(await this.divisiService.remove(id));
   }
 }

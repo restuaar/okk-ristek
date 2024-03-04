@@ -96,6 +96,32 @@ async function main() {
     idAnggota++;
   }
 
+  idDivisi = 1;
+  for (idDivisi; idDivisi <= 4; idDivisi++) {
+    await prisma.divisi.update({
+      where: { id: idDivisi },
+      data: {
+        pjId: idDivisi,
+      },
+    });
+  }
+
+  await prisma.divisi.update({
+    where: { id: 1 },
+    data: {
+      ...division[0],
+      waPjId: 5,
+    },
+  });
+
+  await prisma.divisi.update({
+    where: { id: 2 },
+    data: {
+      ...division[1],
+      waPjId: 6,
+    },
+  });
+
   const kelompokOKK = [
     { nomor: 1 },
     { nomor: 2 },
