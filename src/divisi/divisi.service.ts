@@ -15,7 +15,14 @@ export class DivisiService {
   }
 
   findAll(withAnggota: boolean, withPemimpin: boolean) {
-    return this.prisma.divisi.findMany({ include: { anggota: withAnggota, pj: withPemimpin, waPj: withPemimpin, waPj2: withPemimpin} });
+    return this.prisma.divisi.findMany({
+      include: {
+        anggota: withAnggota,
+        pj: withPemimpin,
+        waPj: withPemimpin,
+        waPj2: withPemimpin,
+      },
+    });
   }
 
   findOne(id: number) {
